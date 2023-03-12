@@ -1,0 +1,43 @@
+{
+  "name": "use-fountain",
+  "version": "0.0.0",
+  "description": "React custom hook that adds a fun particle effect to clicked elements",
+  "author": "Arrastia",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "use-fountain",
+    "animation"
+  ],
+  "scripts": {
+    "cleanUp": "rimraf dist",
+    "test": "jest",
+    "build": "npm run cleanUp && rollup -c",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/react": "^18.0.28",
+    "eslint": "^8.36.0",
+    "jest": "^29.5.0",
+    "react": "^18.2.0",
+    "rimraf": "^4.4.0",
+    "rollup": "^3.19.1",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^4.9.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arrastia/use-fountain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arrastia/use-fountain/issues"
+  },
+  "homepage": "https://github.com/arrastia/use-fountain#readme"
+}
