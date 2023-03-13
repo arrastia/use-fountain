@@ -83,6 +83,7 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
   const tap = isTouchInteraction ? 'touchstart' : 'mousedown';
   const tapEnd = isTouchInteraction ? 'touchend' : 'mouseup';
   const move = isTouchInteraction ? 'touchmove' : 'mousemove';
+  const leave = isTouchInteraction ? 'touchcancel' : 'mouseleave';
 
   const updateMousePosition = (event: MouseEvent | TouchEvent) => {
     if ('touches' in event) {
@@ -106,13 +107,13 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
   element.addEventListener(move, updateMousePosition, { passive: true });
   element.addEventListener(tap, tapHandler, { passive: true });
   element.addEventListener(tapEnd, disableAutoAddParticle, { passive: true });
-  element.addEventListener('mouseleave', disableAutoAddParticle, { passive: true });
+  element.addEventListener(leave, disableAutoAddParticle, { passive: true });
 
   return () => {
     element.removeEventListener(move, updateMousePosition);
     element.removeEventListener(tap, tapHandler);
     element.removeEventListener(tapEnd, disableAutoAddParticle);
-    element.removeEventListener('mouseleave', disableAutoAddParticle);
+    element.removeEventListener(leave, disableAutoAddParticle);
 
     const interval = setInterval(() => {
       if (animationFrame && particles.length === 0) {
