@@ -4,17 +4,10 @@ import type { FountainOptions, Particle } from '../@types/Fountain.types';
 
 let instanceCounter = 0;
 
-export function createFountainElement(element: HTMLElement, atoms: string | string[], options: FountainOptions) {
-  const {
-    direction = 'both',
-    gravity = true,
-    isDisabled = false,
-    limit = 35,
-    maxJumpHeight = 5,
-    maxJumpWidth = 25,
-    spinSpeed = 10,
-    size: sizes = [15, 20, 25, 35, 45]
-  } = options;
+const defaults = { direction: 'both', hasGravity: false, height: 25, isDisabled: false, limit: 35, size: [15, 20, 25, 35, 45], spinSpeed: 10, width: 5 };
+
+export function createFountainElement(element: HTMLElement, atoms: string | string[], options?: FountainOptions) {
+  const { direction: jumpDirection, hasGravity, height, isDisabled, limit, size: sizes, spinSpeed: speed, width } = { ...defaults, ...options };
 
   instanceCounter++;
 
@@ -27,13 +20,13 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
 
   function createParticle() {
     const size = Array.isArray(sizes) ? sizes[Math.floor(Math.random() * sizes.length)] : sizes;
-    const distanceWidth = Math.random() * 5;
-    const distanceHeight = Math.random() * 25;
+    const distanceWidth = Math.random() * width;
+    const distanceHeight = Math.random() * height;
     const spinVal = Math.random() * 0;
-    const spinSpeed = Math.random() * 10 * (Math.random() <= 0.5 ? -1 : 1);
+    const spinSpeed = Math.random() * speed * (Math.random() <= 0.5 ? -1 : 1);
     const top = mouseY - size / 2;
     const left = mouseX - size / 2;
-    const direction = Math.random() <= 0.5 ? -1 : 1;
+    const direction = jumpDirection === 'both' ? (Math.random() <= 0.5 ? -1 : 1) : jumpDirection === 'left' ? -1 : 1;
 
     const particle = document.createElement('div');
     particle.innerHTML = Array.isArray(atoms) ? atoms[Math.floor(Math.random() * atoms.length)] : atoms;
@@ -49,23 +42,15 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
 
   function updateParticles() {
     particles.forEach(p => {
-      p.left = gravity ? p.left - p.distanceWidth * p.direction : p.left + p.distanceWidth * p.direction;
-
-      p.top = gravity ? p.top - p.distanceHeight : p.top + p.distanceHeight;
+      p.left = hasGravity ? p.left - p.distanceWidth * p.direction : p.left + p.distanceWidth * p.direction;
+      p.top = hasGravity ? p.top - p.distanceHeight : p.top + p.distanceHeight;
 
       p.distanceHeight = Math.min(p.size, p.distanceHeight - 1);
       p.spinVal = p.spinVal + p.spinSpeed;
 
-      if (gravity) {
-        if (p.top >= Math.max(window.innerHeight, document.body.clientHeight) + p.size) {
-          particles = particles.filter(o => o !== p);
-          p.element.remove();
-        }
-      } else {
-        if (p.top + p.size <= 0) {
-          particles = particles.filter(o => o !== p);
-          p.element.remove();
-        }
+      if ((hasGravity && p.top >= Math.max(window.innerHeight, document.body.clientHeight) + p.size) || (!hasGravity && p.top + p.size <= 0)) {
+        particles = particles.filter(o => o !== p);
+        p.element.remove();
       }
 
       p.element.setAttribute(

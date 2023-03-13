@@ -5,7 +5,7 @@ import { createFountainElement } from './utils/createFountainElement';
 import type { FountainOptions } from './@types/Fountain.types';
 import type { RefObject } from 'react';
 
-export const useFountain = <T extends HTMLElement>(particles: string | string[], options: FountainOptions): RefObject<T> => {
+export const useFountain = <T extends HTMLElement>(particles: string | string[], options?: FountainOptions): RefObject<T> => {
   const ref = useRef<T>(null);
 
   useEffect(() => {

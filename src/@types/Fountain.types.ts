@@ -2,13 +2,13 @@ export type Direction = 'left' | 'right' | 'both';
 
 export interface FountainOptions {
   direction?: Direction;
-  gravity?: boolean;
+  hasGravity?: boolean;
+  height?: number;
   isDisabled?: boolean;
   limit?: number;
-  maxJumpHeight?: number;
-  maxJumpWidth?: number;
   size?: number | number[];
   spinSpeed?: number;
+  width?: number;
 }
 
 export interface Particle {
