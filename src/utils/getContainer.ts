@@ -1,6 +1,6 @@
 export const id = 'fountain-layer';
 
-export const getContainer = () => {
+export const getContainer = (): HTMLElement => {
   const existingContainer = document.getElementById(id);
 
   if (existingContainer) return existingContainer;
@@ -9,9 +9,7 @@ export const getContainer = () => {
   container.setAttribute('id', id);
   container.setAttribute(
     'style',
-    ['overflow:hidden', 'position:fixed', 'height:100%', 'top:0', 'left:0', 'right:0', 'bottom:0', 'pointer-events:none', 'z-index:777777777'].join(
-      ';'
-    )
+    ['overflow:hidden', 'position:fixed', 'height:100%', 'top:0', 'left:0', 'right:0', 'bottom:0', 'pointer-events:none', 'z-index:777777777'].join(';')
   );
 
   document.body.appendChild(container);

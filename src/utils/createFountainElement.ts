@@ -6,7 +6,7 @@ let instanceCounter = 0;
 
 const defaults = { direction: 'both', hasGravity: false, height: 25, isDisabled: false, limit: 35, size: [15, 20, 25, 35, 45], spinSpeed: 10, width: 5 };
 
-export function createFountainElement(element: HTMLElement, atoms: string | string[], options?: FountainOptions) {
+export function createFountainElement(element: HTMLElement, atoms: string | string[], options?: FountainOptions): () => void {
   const { direction: jumpDirection, hasGravity, height, isDisabled, limit, size: sizes, spinSpeed: speed, width } = { ...defaults, ...options };
 
   instanceCounter++;
@@ -18,7 +18,7 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
 
   const container = getContainer();
 
-  function createParticle() {
+  function createParticle(): void {
     const size = Array.isArray(sizes) ? sizes[Math.floor(Math.random() * sizes.length)] : sizes;
     const distanceWidth = Math.random() * width;
     const distanceHeight = Math.random() * height;
@@ -40,7 +40,7 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
     particles.push({ direction, element: particle, left, size, distanceWidth, distanceHeight, spinSpeed, spinVal, top });
   }
 
-  function updateParticles() {
+  function updateParticles(): void {
     particles.forEach(p => {
       p.left = hasGravity ? p.left - p.distanceWidth * p.direction : p.left + p.distanceWidth * p.direction;
       p.top = hasGravity ? p.top - p.distanceHeight : p.top + p.distanceHeight;
@@ -69,7 +69,7 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
 
   let animationFrame: number | undefined;
 
-  function loop() {
+  function loop(): void {
     if (autoAddParticle && particles.length < limit) createParticle();
 
     updateParticles();
@@ -85,7 +85,7 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
   const move = isTouchInteraction ? 'touchmove' : 'mousemove';
   const leave = isTouchInteraction ? 'touchcancel' : 'mouseleave';
 
-  const updateMousePosition = (event: MouseEvent | TouchEvent) => {
+  const updateMousePosition = (event: MouseEvent | TouchEvent): void => {
     if ('touches' in event) {
       mouseX = event.touches?.[0].clientX;
       mouseY = event.touches?.[0].clientY;
@@ -95,14 +95,14 @@ export function createFountainElement(element: HTMLElement, atoms: string | stri
     }
   };
 
-  const tapHandler = (event: MouseEvent | TouchEvent) => {
+  const tapHandler = (event: MouseEvent | TouchEvent): void => {
     if (isDisabled) return;
 
     updateMousePosition(event);
     autoAddParticle = true;
   };
 
-  const disableAutoAddParticle = () => (autoAddParticle = false);
+  const disableAutoAddParticle = (): boolean => (autoAddParticle = false);
 
   element.addEventListener(move, updateMousePosition, { passive: true });
   element.addEventListener(tap, tapHandler, { passive: true });
