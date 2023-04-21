@@ -4,7 +4,7 @@ import type { FountainOptions, Particle } from '../@types/Fountain.types';
 
 let instanceCounter = 0;
 
-const defaults = { direction: 'both', hasGravity: false, height: 25, isDisabled: false, limit: 35, size: [15, 20, 25, 35, 45], spinSpeed: 10, width: 5 };
+const defaults = { direction: 'both', hasGravity: true, height: 25, isDisabled: false, limit: 35, size: [15, 20, 25, 35, 45], spinSpeed: 10, width: 5 };
 
 export function createFountainElement(element: HTMLElement, atoms: string | string[], options?: FountainOptions): () => void {
   const { direction: jumpDirection, hasGravity, height, isDisabled, limit, size: sizes, spinSpeed: speed, width } = { ...defaults, ...options };
