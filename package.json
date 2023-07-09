@@ -1,6 +1,6 @@
 {
   "name": "use-fountain",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React custom hook that adds a fun particle effect to clicked elements",
   "author": "Arrastia",
   "license": "MIT",
